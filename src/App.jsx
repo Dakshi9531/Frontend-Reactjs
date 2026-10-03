@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import './App.css';
 
 const teamRoles = {
@@ -252,6 +252,240 @@ function formatCurrency(amount) {
     currency: 'INR',
     maximumFractionDigits: 0
   }).format(amount);
+}
+
+export default App;*/
+/*
+import { useState } from 'react';
+import './App.css';
+import { useFetch } from './hooks/useFetch';
+import { getProjects, getUsers } from './services/projectService';
+
+function formatCurrency(amount) {
+  if (amount === 0 || amount === null || amount === undefined) {
+    return 'Not estimated';
+  }
+
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0
+  }).format(amount);
+}
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
+function StatusBadge({ status }) {
+  const statusStyles = {
+    Completed: 'green',
+    'In Progress': 'orange',
+    Planned: 'blue'
+  };
+
+  const style = statusStyles[status] || 'gray';
+
+  return (
+    <span className={`status-badge ${style}`}>
+      {status}
+    </span>
+  );
+}
+
+function Detail({ label, value, clickable = false, onClick }) {
+  return (
+    <div className="detail">
+      <span className="detail-label">{label}</span>
+      {clickable ? (
+        <button type="button" className="detail-link" onClick={onClick}>
+          {value}
+        </button>
+      ) : (
+        <span className="detail-value">{value}</span>
+      )}
+    </div>
+  );
+}
+
+function ProjectCard({ project, user, onOpenUser }) {
+  return (
+    <div className="project-card">
+      <div className="project-header">
+        <div>
+          <h2>{project.name}</h2>
+          <p>{project.client}</p>
+        </div>
+
+        <StatusBadge status={project.status} />
+      </div>
+
+      <div className="project-details">
+        <Detail
+          label="Owner"
+          value={project.owner}
+          clickable={Boolean(user)}
+          onClick={() => onOpenUser(user)}
+        />
+
+        <Detail
+          label="Date Range"
+          value={`${formatDate(project.startDate)} - ${formatDate(project.endDate)}`}
+        />
+
+        <Detail
+          label="Total Hours"
+          value={`${project.hours} hrs`}
+        />
+
+        <Detail
+          label="Final Estimated Cost"
+          value={formatCurrency(project.finalCost)}
+        />
+      </div>
+    </div>
+  );
+}
+
+function SkeletonCard() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton-line large"></div>
+      <div className="skeleton-line"></div>
+      <div className="skeleton-line"></div>
+      <div className="skeleton-line"></div>
+    </div>
+  );
+}
+
+function App() {
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const { data, isLoading, error, refetch } = useFetch(
+    ({ signal }) =>
+      Promise.all([
+        getProjects({ signal }),
+        getUsers({ signal })
+      ]),
+    []
+  );
+
+  if (isLoading) {
+    return (
+      <div className="app">
+        <div className="header">
+          <div>
+            <h1>Projects</h1>
+            <p>Projects loaded from server</p>
+          </div>
+        </div>
+
+        <div className="project-list">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app">
+        <div className="error">
+          <h2>Something went wrong</h2>
+          <p>{error.message}</p>
+          <button onClick={refetch}>Try Again</button>
+        </div>
+      </div>
+    );
+  }
+
+  const projects = data?.[0] || [];
+  const users = data?.[1] || [];
+
+  if (projects.length === 0) {
+    return (
+      <div className="app">
+        <div className="header">
+          <div>
+            <h1>Projects</h1>
+            <p>Projects loaded from server</p>
+          </div>
+        </div>
+
+        <div className="empty">
+          <h2>No projects yet</h2>
+          <p>Create your first project to start estimating.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const nameById = Object.fromEntries(
+    users.map((user) => [user.id, user.name])
+  );
+
+  const projectsWithOwner = projects.map((project) => ({
+    ...project,
+    owner: nameById[project.ownerId] || 'Unknown'
+  }));
+
+  return (
+    <>
+      <div className="app">
+        <div className="header">
+          <div>
+            <h1>Projects</h1>
+            <p>Projects loaded from server</p>
+          </div>
+        </div>
+
+        <div className="project-list">
+          {projectsWithOwner.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              user={users.find((user) => user.id === project.ownerId) || null}
+              onOpenUser={setSelectedUser}
+            />
+          ))}
+        </div>
+      </div>
+
+      {selectedUser && (
+        <div className="user-modal-backdrop" onClick={() => setSelectedUser(null)}>
+          <div className="user-modal" onClick={(event) => event.stopPropagation()}>
+            <button type="button" className="close-modal" onClick={() => setSelectedUser(null)}>
+              ×
+            </button>
+            <h3>User Details</h3>
+            <div className="user-detail-row">
+              <span>ID</span>
+              <strong>{selectedUser.id}</strong>
+            </div>
+            <div className="user-detail-row">
+              <span>Name</span>
+              <strong>{selectedUser.name}</strong>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default App;
+*/
+import AppRoutes from './routes';
+import './App.css'
+
+function App() {
+  return <AppRoutes />;
 }
 
 export default App;
